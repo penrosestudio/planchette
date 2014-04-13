@@ -3,6 +3,8 @@ Planchette
 
 Planchette is a boilerplate for front-end prototypes.
 
+![Planchette](https://raw.githubusercontent.com/JandJ/planchette/master/src/images/planchette.jpg)
+
 Usage
 -----
 
