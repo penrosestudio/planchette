@@ -1,0 +1,15 @@
+{
+  "name": "planchette",
+  "version": "0.0.1",
+  "description": "A prototype boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JandJ/planchette.git"
+  },
+  "devDependencies": {
+    "gulp": "3.6.0",
+    "gulp-sass": "~0.7.1",
+    "gulp-clean": "~0.2.4",
+    "gulp-concat": "^2.2.0"
+  }
+}
