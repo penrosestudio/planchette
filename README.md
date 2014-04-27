@@ -5,8 +5,8 @@ Planchette is a boilerplate for front-end prototypes.
 
 ![Planchette](https://raw.githubusercontent.com/penrosestudio/planchette/master/src/images/planchette.jpg)
 
-Usage
------
+Installation
+------------
 
 Create a new project folder and remove boilerplate repo:
 ```
@@ -20,4 +20,8 @@ Install dependencies:
 npm install
 ```
 
-Run ```gulp``` for building.
+
+Usage
+-----
+
+Run ```gulp watch``` for building. Build folder is available at localhost:8000
