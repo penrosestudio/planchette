@@ -25,3 +25,5 @@ Usage
 -----
 
 Run ```gulp watch``` for building. Build folder is available at localhost:8000
+
+Bootstrap components are at localhost:8000/components.html

@@ -39,7 +39,7 @@ gulp.task('javascripts', function() {
 });
 
 gulp.task('templates', function() {
-  gulp.src('./src/index.html')
+  gulp.src('./src/*.html')
 
     // Embed livereload snippet
     .pipe(embedlr())
@@ -56,7 +56,7 @@ gulp.task('watch', ['server'], function() {
   gulp.watch('./src/javascripts/*.*', ['javascripts']);
   gulp.watch('./src/images/*.*', ['images']);
   gulp.watch('./src/fonts/*.*', ['fonts']);
-  gulp.watch('./src/index.html', ['templates']);
+  gulp.watch('./src/*.html', ['templates']);
 
   var server = livereload();
   gulp.watch('build/**').on('change', function(file) {
