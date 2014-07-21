@@ -65,6 +65,26 @@ gulp.task('watch', ['default', 'server'], function() {
 });
 
 gulp.task('server', function(next) {
-  var server = connect();
-  server.use(connect.static('build')).listen(process.env.PORT || 8000, next);
+    var fs = require('fs'),
+        path = require('path'),
+        app = express(),
+        port = process.env.PORT || 8000;
+
+    // set app public directory & views
+    app.use(express.static(path.join(__dirname,'/build')));
+    app.set('views', path.join(__dirname,'/src'));
+
+    app.get('/pattern-book', function(req, res) {
+        fs.readFile('./src/pattern-book-data.json', function(err, data) {
+            try {
+                data = JSON.parse(data);
+                res.render('pattern-book', data);
+            } catch(ex) {
+                console.log(ex);
+                res.send('uh-oh! error parsing the JSON file, check your console');
+            }
+        });
+    });
+    app.listen(process.env.PORT || 8000, next);
+    console.log('listening on '+port+', why not visit /pattern-book');
 });
