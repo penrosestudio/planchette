@@ -1,4 +1,91 @@
 {
     "name": "Jerry Philips",
-    "pets": ["Betty", "Berty", "Billy"]
+    "pets": ["Betty", "Berty", "Billy"],
+	"message":"I am a message!",
+	"error":"I am an error!",
+	"table": {
+    	"table-name": "Pets table",
+    	"button-groups": [
+    	    ["edit", "delete"],
+    	    ["add"]
+    	],
+    	"has-checkbox-column": true,
+    	"has-edit-column": true,
+    	"table-headers": [
+    	    "Name", "Breed", "Weight"
+    	],
+    	"rows": [{
+        	"columns": ["Betty", "Poodle", "42kg"]
+    	}, {
+        	"columns": ["Berty", "Greyhound", "25kg"]
+    	}, {
+        	"columns": ["Billy", "French Bulldog", "12kg"]
+    	}]
+	},
+	"form": {
+        "title": "Edit form",
+        "action": "/save",
+        "submitLabel": "Save changes",
+        "item-type": "Pet",
+        "new-item": true,
+        "item-title": "Billy",
+		"has-key": "true",
+        "button-groups": [
+			["back","save"]
+		],
+		"key-headers": [
+			"Weight (kg)","Weight (lb)"
+		],
+		"key-rows": [{
+			"columns": ["10kg", "22lb"]
+		}, {
+			"columns": ["20kg", "44lb"]
+		}, {
+			"columns": ["30kg", "66lb"]
+		}],
+		"form-items": [{
+			"type": "subheader",
+			"value": "Pet details:"
+		}, {
+			"required": "true",
+			"id": "name",
+			"type": "text-input",
+			"label": "Name",
+			"placeholder": "Name",
+			"value":"Billy"
+		}, {
+			"required": "true",
+			"id": "breed",
+			"type": "select",
+			"label": "Breed",
+			"placeholder": "Breed",
+            "values":["Poodle","Boxer","Greyhound","French Bulldog"]
+		}, {
+            "required": "true",
+			"id": "email",
+			"type": "email-input",
+			"label": "Pet Email Address",
+			"placeholder": "This is the pet's email address",
+			"value":""
+		}, {
+			"type": "subheader",
+			"value": "Special pet details:"
+		}, {
+			"required": "true",
+			"id": "description",
+			"type": "text-area",
+			"label": "Pet Description",
+			"placeholder": "",
+			"value":""
+		}, {
+			"required": "true",
+			"id": "password",
+			"type": "password-input",
+			"label": "Pet Password",
+			"placeholder": "Enter a password for your pet",
+			"label2": "Confirm",
+			"placeholder2": "Enter the pet password again",
+			"value":""
+		}]
+	}
 }

@@ -1,0 +1,120 @@
+{{#with form}}
+<div class="row">
+	<div class="col-sm-12 navControls">
+    {{#if title}}
+		<h2>{{title}}</h2>
+	{{else}}
+		{{#if new-item}}
+		<h2>Adding a {{item-type}}</h2>
+		{{else}}
+		<h2>Editing {{item-title}}</h2>
+		{{/if}}
+    {{/if}}
+	{{#each button-groups}}
+		<div class="btn-group">
+			{{#each this}}
+				{{#is this "back"}}
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back to {{../../../item-type}} List</button>
+				{{/is}}
+				{{#is this "save"}}
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Save </button>
+				{{/is}}
+			{{/each}}
+		</div>
+	{{/each}}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 adminForm">
+		<form class="form-horizontal" role="form" method="post" action="{{action}}">
+			{{#each form-items}}
+				{{#is type "subheader"}}
+					<h3 class="col-sm-10 col-sm-offset-2">{{value}}</h3>
+				{{else}}
+				<div class="form-group">
+					<label for="{{id}}Field" class="col-sm-2 control-label">{{label}}</label>
+					{{#is type "password-input"}}
+					{{#unless label2}}
+					<div class="col-sm-8"><!-- add class 'has-error' for validation -->
+    					<input type="password" name="{{id}}" class="form-control" id="{{id}}Field" placeholder="{{placeholder}}" value="">
+					</div>
+					{{else}}
+					<div class="col-sm-3">
+						<input type="password" name="{{id}}" class="form-control" id="{{id}}Field" placeholder="{{placeholder}}" value="">
+					</div>
+					<label for="{{id}}Field2" class="col-sm-2 control-label">{{label2}}</label>
+					<div class="col-sm-3">
+						<input type="password" name="{{id}}" class="form-control" id="{{id}}Field2" placeholder="{{placeholder2}}" value="">
+					</div>
+				    {{/unless}}
+					{{else}}
+					<div class="col-sm-8"><!-- add class 'has-error' for validation -->
+						{{#is type "text-input"}}
+						<input type="text" class="form-control" name="{{id}}" id="{{id}}Field" placeholder="{{placeholder}}" value="{{value}}">
+						{{/is}}
+						{{#is type "email-input"}}
+						<input type="email" class="form-control" name="{{id}}" id="{{id}}Field" placeholder="{{placeholder}}" value="{{value}}">
+						{{/is}}
+						{{#is type "text-area"}}
+						<textarea class="form-control" name="{{id}}" id="{{id}}Field" cols="30" rows="10"></textarea>
+						{{/is}}
+						{{#is type "select"}}
+						<select id="{{id}}Select" name="{{id}}" class="form-control">
+							<option selected disabled>{{placeholder}}</option>
+							{{#each values}}
+							<option>{{this}}</option>
+							{{/each}}
+						</select>
+						{{/is}}
+						{{#if required}}
+						<span class="validationMessage">Required</span>
+						{{/if}}	
+						{{#if helper-text}}
+						<p class="information">{{helper-text}}</p>
+						{{/if}}
+					</div>
+					{{/is}}
+				</div>
+				{{/is}}
+			{{/each}}
+			{{#if has-key}}
+			<div class="col-sm-8 col-sm-offset-2">
+				<table class="table table-hover adminTable">
+					<thead>
+						<tr>
+							{{#each key-headers}}
+							<th>{{this}}</th>
+							{{/each}}
+						</tr>
+					</thead>
+					<tbody>
+						{{#each key-rows}}
+						<tr>
+							{{#each columns}}
+							<td>{{this}}</td>
+							{{/each}}
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+			{{/if}}
+			<div class="form-group"><!-- Save/Publish Item -->
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> 
+					{{#if submitLabel}}
+					    {{submitLabel}}
+                    {{else}}
+    					{{#if new-item}} 
+    						Publish {{item-type}}
+    					{{else}}
+    						Save Changes
+    					{{/if}}
+					{{/if}}
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{{/with}}

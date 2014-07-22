@@ -67,12 +67,86 @@ gulp.task('watch', ['default', 'server'], function() {
 gulp.task('server', function(next) {
     var fs = require('fs'),
         path = require('path'),
+        cons = require('consolidate'),
+        Handlebars = require('handlebars'),
+        express = require('express'),
         app = express(),
         port = process.env.PORT || 8000;
+    
+    // set app views
+    app.engine('html', cons.handlebars);
+    app.set('view engine', 'html');
 
     // set app public directory & views
     app.use(express.static(path.join(__dirname,'/build')));
     app.set('views', path.join(__dirname,'/src'));
+    
+    // Register partials
+    var partials = path.join(__dirname,"/src/partials/");
+    fs.readdirSync(partials).forEach(function (file) {
+        var source = fs.readFileSync(path.join(partials, file), "utf8"),
+            partial = /(.+)\.html/.exec(file).pop();
+        Handlebars.registerPartial(partial, source);
+    });
+
+    // Register helpers
+    var helpers = {
+        "foreach": function(arr,options) {
+            if(typeof arr==='string') {
+                return options.fn(arr);
+            }
+            if(options.inverse && (!arr || !arr.length)) {
+                return options.inverse(this);
+            } else if(!arr) {
+                return '';
+            }
+            return arr.map(function(item,index) {
+                item.$index = index;
+                item.$first = index === 0;
+                item.$last  = index === arr.length-1;
+                return options.fn(item);
+            }).join('');
+        },
+        "propertyListClassFromStatus": function(status) {
+            return status==="on the market" ? "onMarket" : (status==="under offer" ? "underOffer" : "propertyLet");
+        },
+        // from https://github.com/assemble/handlebars-helpers/blob/master/lib/helpers/helpers-strings.js
+        "lowercase": function(str) {
+            if(str && typeof str === "string") {
+                return str.toLowerCase();
+            }
+        },
+        // from https://github.com/assemble/handlebars-helpers/blob/master/lib/helpers/helpers-comparisons.js
+        "is": function (value, test, options) {
+            if (value === test) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        },
+        // from https://github.com/assemble/handlebars-helpers/blob/master/lib/helpers/helpers-comparisons.js
+        "or": function (a, b, options) {
+            if (a || b) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        },
+        // from https://github.com/assemble/handlebars-helpers/blob/master/lib/helpers/helpers-math.js
+        "add": function (value, addition) {
+            return value + addition;
+        },
+        "formatDate": function(datetime, formatString) {
+            // mutate the date into London timezone and then format it
+            return moment(datetime).tz('Europe/London').format(formatString);
+        }
+    };
+    
+    for (var helper in helpers) {
+        if (helpers.hasOwnProperty(helper)) {
+            Handlebars.registerHelper(helper, helpers[helper]);
+        }
+    }
 
     app.get('/pattern-book', function(req, res) {
         fs.readFile('./src/pattern-book-data.json', function(err, data) {

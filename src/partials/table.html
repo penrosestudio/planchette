@@ -1,0 +1,57 @@
+{{#with table}}
+<div class="row">
+	<div class="col-sm-12 navControls">
+		<h2>{{table-name}}</h2>
+			{{#each button-groups}}
+			<div class="btn-group">
+				{{#each this}}
+					{{#is this "edit"}}
+					<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> Edit </button>
+					{{/is}}
+					{{#is this "delete"}}
+					<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-trash"></span> Delete </button>
+					{{/is}}
+					{{#is this "add"}}
+					<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add </button>
+					{{/is}}
+				{{/each}}
+			</div>
+			{{/each}}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<table class="table table-hover adminTable">
+			<thead>
+				<tr>{{#if has-checkbox-column}}
+					<th class="checkColumn"><input type="checkbox" value="option0"></th>
+					{{/if}}
+					{{#each table-headers}}
+					<th>{{this}}</th>
+					{{/each}}
+					{{#if has-edit-columnn}}
+					<th class="editCol">Edit</th>
+					{{/if}}
+				</tr>
+			</thead>
+			<tbody>
+				{{#each rows}}
+				<tr>
+					{{#if ../has-checkbox-column}}
+					<td><input type="checkbox" value="option1"></td>
+					{{/if}}
+					{{#each columns}}
+					<td>{{this}}</td>
+					{{/each}}
+					{{#if ../has-edit-columnn}}
+					<td class="editCol"><button type="button" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span> Edit </button></td>
+					{{/if}}
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
+{{/with}}
+
+
