@@ -36,6 +36,9 @@ gulp.task('javascripts', function() {
   gulp.src(['./src/javascripts/jquery-1.11.0.min.js', './src/javascripts/bootstrap.min.js', './src/javascripts/app.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./build/javascripts'));
+
+  gulp.src(['./src/ractive.js', './src/pattern-book-data.js', './src/ractive-pattern-book.js'])
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('templates', function() {
