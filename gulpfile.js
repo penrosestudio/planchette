@@ -5,9 +5,9 @@ var gulp = require('gulp'),
   livereload = require('gulp-livereload'),
   embedlr = require('gulp-embedlr'),
   connect = require('connect');
-  debug = require('gulp-debug'),
-  shell = require('gulp-shell'),
-  neat = require('node-neat').includePaths;
+  //debug = require('gulp-debug'),
+  //shell = require('gulp-shell'),
+  //neat = require('node-neat').includePaths;
 
 var paths = {
     scss: './src/scss/*.scss'
