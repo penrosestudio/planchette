@@ -1,5 +1,4 @@
-@import "bootstrap";
-
-/*******************
-  Project styles
-  *******************/
+@import "components/normalize";
+@import "../bourbon/bourbon";
+@import "../base/base";
+@import "../neat/neat";
