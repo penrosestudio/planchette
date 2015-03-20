@@ -33,8 +33,10 @@ gulp.task('fonts', function() {
 });
 
 gulp.task('javascripts', function() {
-  gulp.src(['./src/javascripts/jquery-1.11.0.min.js', './src/javascripts/bootstrap.min.js', './src/javascripts/app.js'])
-    .pipe(concat('main.js'))
+  gulp.src([
+    './src/javascripts/jquery-1.11.0.min.js', 
+    './src/javascripts/app.js'
+    ]).pipe(concat('main.js'))
     .pipe(gulp.dest('./build/javascripts'));
 });
 
