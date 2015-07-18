@@ -1,8 +1,211 @@
-{{>header}}
-    <h1>Pets list</h1>
-    {{>pets-list}}
-    <h1>Pet table</h1>
-    {{>table}}
-    <h1>Pet edit form</h1>
-    {{>form}}
-{{>footer}}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Planchette Pattern Book</title>
+		<link rel="stylesheet" type="text/css" href="../build/css/style.css" media="screen" />
+		<script type="text/javascript">
+			document.documentElement.className = "js";
+		</script>
+    </head>
+    <body>
+        <div id="container">
+        </div>
+
+        <script type="text/ractive" id="petsList">
+            <ul>
+            {{#each pets}}
+                <li>This pet is called {{this}}</li>
+            {{/each}}
+            </ul>
+        </script>
+        <script type="text/ractive" id="template">
+            <h1>Pets list</h1>
+            {{> petsList}}
+            <hr/>
+            
+            <h1>Pet table</h1>
+            {{#with table}}
+            <div class="row">
+            	<div class="col-sm-12 navControls">
+            		<h2>{{tableName}}</h2>
+            			{{#each buttonGroups}}
+            			<div class="btn-group">
+            				{{#each this}}
+            					{{#if this === "edit"}}
+            					<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> Edit </button>
+            					{{/if}}
+            					{{#if this === "delete"}}
+            					<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-trash"></span> Delete </button>
+            					{{/if}}
+            					{{#if this === "add"}}
+            					<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add </button>
+            					{{/if}}
+            				{{/each}}
+            			</div>
+            			{{/each}}
+            	</div>
+            </div>
+            <div class="row">
+            	<div class="col-sm-12">
+            		<table class="table table-hover adminTable">
+            			<thead>
+            				<tr>{{#if hasCheckboxColumn}}
+            					<th class="checkColumn"><input type="checkbox" value="option0"></th>
+            					{{/if}}
+            					{{#each tableHeaders}}
+            					<th>{{this}}</th>
+            					{{/each}}
+            					{{#if hasEditColumnn}}
+            					<th class="editCol">Edit</th>
+            					{{/if}}
+            				</tr>
+            			</thead>
+            			<tbody>
+            				{{#each rows}}
+            				<tr>
+            					{{#if ../../hasCheckboxColumn}}
+            					<td><input type="checkbox" value="option1"></td>
+            					{{/if}}
+            					{{#each columns}}
+            					<td>{{this}}</td>
+            					{{/each}}
+            					{{#if ../../hasEditColumnn}}
+            					<td class="editCol"><button type="button" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span> Edit </button></td>
+            					{{/if}}
+            				</tr>
+            				{{/each}}
+            			</tbody>
+            		</table>
+            	</div>
+            </div>
+            {{/with}}
+            <hr/>
+            
+            <h1>Pet edit form</h1>
+            {{#with form}}
+            <div class="row">
+            	<div class="col-sm-12 navControls">
+                {{#if title}}
+            		<h2>{{title}}</h2>
+            	{{else}}
+            		{{#if newItem}}
+            		<h2>Adding a {{itemType}}</h2>
+            		{{else}}
+            		<h2>Editing {{itemTitle}}</h2>
+            		{{/if}}
+                {{/if}}
+            	{{#each buttonGroups}}
+            		<div class="btn-group">
+            			{{#each this}}
+            				{{#if this === "back"}}
+            				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back to {{../../../itemType}} List</button>
+            				{{/if}}
+            				{{#if this === "save"}}
+            				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Save </button>
+            				{{/if}}
+            			{{/each}}
+            		</div>
+            	{{/each}}
+            	</div>
+            </div>
+            <div class="row">
+            	<div class="col-sm-12 adminForm">
+            		<form class="form-horizontal" role="form" method="post" action="{{action}}">
+            			{{#each formItems}}
+            				{{#if type === "subheader"}}
+            					<h3 class="col-sm-10 col-sm-offset-2">{{value}}</h3>
+            				{{else}}
+            				<div class="form-group">
+            					<label for="{{id}}Field" class="col-sm-2 control-label">{{label}}</label>
+            					{{#if type === "passwordInput"}}
+            					{{#if label2}}
+            					<div class="col-sm-3">
+            						<input type="password" name="{{id}}" class="form-control" id="{{id}}Field" placeholder="{{placeholder}}" value="">
+            					</div>
+            					<label for="{{id}}Field2" class="col-sm-2 control-label">{{label2}}</label>
+            					<div class="col-sm-3">
+            						<input type="password" name="{{id}}" class="form-control" id="{{id}}Field2" placeholder="{{placeholder2}}" value="">
+            					</div>
+            					{{else}}
+            					<div class="col-sm-8"><!-- add class 'has-error' for validation -->
+                					<input type="password" name="{{id}}" class="form-control" id="{{id}}Field" placeholder="{{placeholder}}" value="">
+            					</div>
+            				    {{/if}}
+            					{{else}}
+            					<div class="col-sm-8"><!-- add class 'has-error' for validation -->
+            						{{#if type === "textInput"}}
+            						<input type="text" class="form-control" name="{{id}}" id="{{id}}Field" placeholder="{{placeholder}}" value="{{value}}">
+            						{{/if}}
+            						{{#if type === "emailInput"}}
+            						<input type="email" class="form-control" name="{{id}}" id="{{id}}Field" placeholder="{{placeholder}}" value="{{value}}">
+            						{{/if}}
+            						{{#if type === "textArea"}}
+            						<textarea class="form-control" name="{{id}}" id="{{id}}Field" cols="30" rows="10"></textarea>
+            						{{/if}}
+            						{{#if type === "select"}}
+            						<select id="{{id}}Select" name="{{id}}" class="form-control">
+            							<option selected disabled>{{placeholder}}</option>
+            							{{#each values}}
+            							<option>{{this}}</option>
+            							{{/each}}
+            						</select>
+            						{{/if}}
+            						{{#if required}}
+            						<span class="validationMessage">Required</span>
+            						{{/if}}	
+            						{{#if helperText}}
+            						<p class="information">{{helperText}}</p>
+            						{{/if}}
+            					</div>
+            					{{/if}}
+            				</div>
+            				{{/if}}
+            			{{/each}}
+            			{{#if hasKey}}
+            			<div class="col-sm-8 col-sm-offset-2">
+            				<table class="table table-hover adminTable">
+            					<thead>
+            						<tr>
+            							{{#each keyHeaders}}
+            							<th>{{this}}</th>
+            							{{/each}}
+            						</tr>
+            					</thead>
+            					<tbody>
+            						{{#each keyRows}}
+            						<tr>
+            							{{#each columns}}
+            							<td>{{this}}</td>
+            							{{/each}}
+            						</tr>
+            						{{/each}}
+            					</tbody>
+            				</table>
+            			</div>
+            			{{/if}}
+            			<div class="form-group"><!-- Save/Publish Item -->
+            				<div class="col-sm-offset-2 col-sm-10">
+            					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> 
+            					{{#if submitLabel}}
+            					    {{submitLabel}}
+                                {{else}}
+                					{{#if newItem}}
+                						Publish {{itemType}}
+                					{{else}}
+                						Save Changes
+                					{{/if}}
+            					{{/if}}
+            					</button>
+            				</div>
+            			</div>
+            		</form>
+            	</div>
+            </div>
+            {{/with}}
+            <hr/>
+        </script>        
+        <script src="ractive.js"></script>
+        <script src="pattern-book-data.js"></script>
+        <script src="ractive-pattern-book.js"></script>
+    </body>
+</html>
